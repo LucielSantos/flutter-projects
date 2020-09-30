@@ -4,7 +4,12 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,18 +38,80 @@ class MyApp extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.grey[200],
-        body: Padding(
-          padding: EdgeInsets.all(18),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Header(),
-              Filter(),
-              ClassCard(),
-            ],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(18),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Header(),
+                Filter(),
+                ClassCard(),
+                ClassCard(),
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class Filter extends StatefulWidget {
+  @override
+  _FilterState createState() => _FilterState();
+}
+
+class _FilterState extends State<Filter> {
+  String _value = '2020/2';
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Text(
+            "Período:",
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 5),
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.only(left: 10.0, right: 10.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.0),
+              color: Colors.white,
+              border: Border.all(color: Colors.grey[400]),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton(
+                  value: _value,
+                  items: [
+                    DropdownMenuItem(child: Text("2020/2"), value: '2020/2'),
+                    DropdownMenuItem(child: Text("2020/1"), value: '2020/1'),
+                    DropdownMenuItem(child: Text("2019/2"), value: '2019/2'),
+                    DropdownMenuItem(child: Text("2019/3"), value: '2019/3')
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _value = value;
+                    });
+                  }),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -226,32 +293,6 @@ class Header extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class Filter extends StatelessWidget {
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Text(
-            "Período:",
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 5),
-          child: Text(
-            "Este é um select huehuehue",
-          ),
-        ),
-      ],
     );
   }
 }
